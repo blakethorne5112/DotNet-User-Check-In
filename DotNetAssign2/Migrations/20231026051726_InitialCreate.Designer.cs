@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetAssign2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231026051436_InitialCreate")]
+    [Migration("20231026051726_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,9 +80,6 @@ namespace DotNetAssign2.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

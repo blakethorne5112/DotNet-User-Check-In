@@ -79,9 +79,6 @@ namespace DotNetAssign2.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 

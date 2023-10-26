@@ -28,7 +28,6 @@ namespace DotNetAssign2.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),

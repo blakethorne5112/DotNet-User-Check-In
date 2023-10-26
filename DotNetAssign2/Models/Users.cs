@@ -8,8 +8,6 @@ namespace DotNetAssign2.Models
     public class Users : IdentityUser
     {
         [Required]
-        public int ID { get; set; }
-        [Required]
         public string? Name { get; set; }
         [Required]
         [EmailAddress]

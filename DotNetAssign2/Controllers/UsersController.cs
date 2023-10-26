@@ -28,7 +28,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null || _context.Users == null)
             {
@@ -36,7 +36,7 @@ namespace DotNetAssign2.Controllers
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
                 return NotFound();
@@ -62,7 +62,7 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckIn([Bind("Id,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -97,9 +97,9 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
-            if (id != users.ID)
+            if (id != users.Id)
             {
                 return NotFound();
             }
@@ -113,7 +113,7 @@ namespace DotNetAssign2.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsersExists(users.ID))
+                    if (!UsersExists(users.Id))
                     {
                         return NotFound();
                     }
@@ -129,7 +129,7 @@ namespace DotNetAssign2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckOut([Bind("Id,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
             foreach (Users user in _context.Users)
             {
@@ -150,7 +150,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null || _context.Users == null)
             {
@@ -158,7 +158,7 @@ namespace DotNetAssign2.Controllers
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
                 return NotFound();
@@ -186,9 +186,9 @@ namespace DotNetAssign2.Controllers
             return RedirectToAction(nameof(Records));
         }
 
-        private bool UsersExists(int id)
+        private bool UsersExists(string id)
         {
-          return (_context.Users?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
