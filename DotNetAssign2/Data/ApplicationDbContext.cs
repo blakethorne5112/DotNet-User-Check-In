@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Models.Users>
+    public class ApplicationDbContext : IdentityDbContext<Models.User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

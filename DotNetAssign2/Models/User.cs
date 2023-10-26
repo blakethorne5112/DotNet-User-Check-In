@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DotNetAssign2.Models
 {
-    public class Users : IdentityUser
+    public class User : IdentityUser
     {
         [Required]
         [EmailAddress]
@@ -16,6 +16,8 @@ namespace DotNetAssign2.Models
         public bool CheckedIn { get; set; }
         public DateTime CheckInTime { get; set; }
         public DateTime CheckOutTime { get; set; }
+
+        public List<UserEvent> UserEvents { get; } = new (); 
     }
 
 /*    public class UsersDBContext : DbContext

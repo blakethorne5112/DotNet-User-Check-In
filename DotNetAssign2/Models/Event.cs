@@ -5,7 +5,7 @@ namespace DotNetAssign2.Models
     public class Event
     {
         [Required]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MinLength(3)]
@@ -20,5 +20,7 @@ namespace DotNetAssign2.Models
 
         [Required]
         public DateTime Date { get; set; }
+
+        public List<UserEvent> UserEvents { get; } = new ();
     }
 }

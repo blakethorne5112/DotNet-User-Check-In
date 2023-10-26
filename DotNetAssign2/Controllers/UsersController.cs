@@ -62,7 +62,7 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckIn([Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] User users)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] User users)
         {
             if (id != users.Id)
             {
@@ -129,9 +129,9 @@ namespace DotNetAssign2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut([Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckOut([Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] User users)
         {
-            foreach (Users user in _context.Users)
+            foreach (User user in _context.Users)
             {
                 if (users.PhoneNumber == user.PhoneNumber)
                 {
