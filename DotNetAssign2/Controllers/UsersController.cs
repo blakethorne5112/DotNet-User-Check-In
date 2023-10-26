@@ -62,7 +62,7 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("Id,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckIn([Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null || _context.Users == null)
             {
@@ -97,7 +97,7 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
             if (id != users.Id)
             {
@@ -129,7 +129,7 @@ namespace DotNetAssign2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut([Bind("Id,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckOut([Bind("Id,Name,Email,PhoneNumber,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
             foreach (Users user in _context.Users)
             {
@@ -170,7 +170,7 @@ namespace DotNetAssign2.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             if (_context.Users == null)
             {
