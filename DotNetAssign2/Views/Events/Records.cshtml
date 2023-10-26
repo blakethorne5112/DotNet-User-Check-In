@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DotNetAssign2.Models.Event>
 @{
-	ViewData["title"] = "Event List";
+    ViewData["title"] = "Event List";
 }
 
 <h1>Event List</h1>
@@ -40,12 +40,10 @@
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <button type="submit" method="post" asp-action="CheckIn" asp-route-id="@item.Id">Check In</button>
+                    <button type="submit" method="post" asp-action="CheckOut" asp-route-id="@item.Id">Check Out</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-

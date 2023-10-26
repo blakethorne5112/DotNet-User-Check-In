@@ -36,7 +36,9 @@ namespace DotNetAssign2.Controllers
         /// </summary>
 
         /// <param name="id">The id of the event to checkin to</param>
-        public async Task<IActionResult> Checkin(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckIn(int? id)
         {
             if (id == null)
             {
@@ -98,9 +100,11 @@ namespace DotNetAssign2.Controllers
         /// <summary>
         /// Checkout of an event by using the passed in event id and the currently logged in userId
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Event Id</param>
         /// <returns></returns>
-        public async Task<IActionResult> Checkout(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckOut(int? id)
         {
             if (id == null)
             {
@@ -167,5 +171,17 @@ namespace DotNetAssign2.Controllers
             return _context.Events.Any(e => e.Id == id);
         }
 
+
+        public async Task<IActionResult> Create([Bind("Name,Description")] Event events)
+        {
+            if (ModelState.IsValid)
+            {
+                events.Date = DateTime.Now;
+                _context.Add(events);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Models
 {
-    public class Event
+    public class Event : DbContext
     {
         [Required]
         public int Id { get; set; }
@@ -18,7 +19,6 @@ namespace DotNetAssign2.Models
 
         public string? Location { get; set; }
 
-        [Required]
         public DateTime Date { get; set; }
 
         public List<UserEvent> UserEvents { get; } = new ();
