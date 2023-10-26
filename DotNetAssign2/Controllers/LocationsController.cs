@@ -26,8 +26,8 @@ namespace DotNetAssign2.Controllers
         /// <returns>List of events</returns>
         public async Task<IActionResult> Records()
         {
-            return _context.Events != null ?
-                        View(await _context.Events.ToListAsync()) :
+            return _context.Locations != null ?
+                        View(await _context.Locations.ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.Users'  is null.");
         }
 
@@ -54,7 +54,7 @@ namespace DotNetAssign2.Controllers
             }
 
             // get the event
-            var currentEvent = await _context.Events.FindAsync(id);
+            var currentEvent = await _context.Locations.FindAsync(id);
 
             if (currentEvent == null)
             {
@@ -62,15 +62,15 @@ namespace DotNetAssign2.Controllers
             }
 
             // create a new UserEvent
-            var userEvent = new UserEvent
+            var userEvent = new UserLocation
             {
                 User = user,
-                Event = currentEvent,
+                Location = currentEvent,
                 CheckinTime = DateTime.Now
             };
 
             // add the UserEvent to the database and onConflict do nothing
-            _context.UserEvents.Add(userEvent);
+            _context.UserLocation.Add(userEvent);
 
             try
             {
@@ -120,7 +120,7 @@ namespace DotNetAssign2.Controllers
             }
 
             // get the event
-            var currentEvent = await _context.Events.FindAsync(id);
+            var currentEvent = await _context.Locations.FindAsync(id);
 
             if (currentEvent == null)
             {
@@ -128,8 +128,8 @@ namespace DotNetAssign2.Controllers
             }
 
             // get the UserEvent
-            var userEvent = await _context.UserEvents
-                .Where(ue => ue.User == user && ue.Event == currentEvent)
+            var userEvent = await _context.UserLocation
+                .Where(ue => ue.User == user && ue.Location == currentEvent)
                 .FirstOrDefaultAsync();
 
             if (userEvent == null)
@@ -141,7 +141,7 @@ namespace DotNetAssign2.Controllers
             userEvent.CheckoutTime = DateTime.Now;
 
             // update the UserEvent in the database
-            _context.UserEvents.Update(userEvent);
+            _context.UserLocation.Update(userEvent);
 
             try
             {
@@ -168,16 +168,15 @@ namespace DotNetAssign2.Controllers
 
         private bool EventExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return _context.Locations.Any(e => e.Id == id);
         }
 
 
-        public async Task<IActionResult> Create([Bind("Name,Description")] Event events)
+        public async Task<IActionResult> Create([Bind("Name,Description")] Location location)
         {
             if (ModelState.IsValid)
             {
-                events.Date = DateTime.Now;
-                _context.Add(events);
+                _context.Add(location);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }

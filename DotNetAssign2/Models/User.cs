@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DotNetAssign2.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DotNetAssign2.Models
 {
@@ -21,7 +22,15 @@ namespace DotNetAssign2.Models
 
         public bool IsAdmin { get; set; } = false;
 
-        public List<UserEvent> UserEvents { get; } = new (); 
+        public ICollection<UserLocation> UserLocations { get; } = new List<UserLocation>(); 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.UserLocations)
+                .WithOne(ue => ue.User)
+                .HasForeignKey(ue => ue.UserId);
+        }
     }
 
 /*    public class UsersDBContext : DbContext

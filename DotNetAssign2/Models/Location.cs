@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DotNetAssign2.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Models
 {
-    public class Event : DbContext
+    public class Location : ApplicationDbContext
     {
         [Required]
         public int Id { get; set; }
@@ -17,10 +18,8 @@ namespace DotNetAssign2.Models
         [MinLength(3)]
         public string Description { get; set; } = "";
 
-        public string? Location { get; set; }
-
         public DateTime Date { get; set; }
 
-        public List<UserEvent> UserEvents { get; } = new ();
+        public ICollection<Models.UserLocation> UserLocations { get; } = new List<Models.UserLocation>();
     }
 }

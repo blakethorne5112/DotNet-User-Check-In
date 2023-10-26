@@ -1,9 +1,9 @@
-﻿@model IEnumerable<DotNetAssign2.Models.Event>
+﻿@model IEnumerable<DotNetAssign2.Models.Location>
 @{
-    ViewData["title"] = "Event List";
+    ViewData["title"] = "Location List";
 }
 
-<h1>Event List</h1>
+<h1>Location List</h1>
 
 <table class="table">
     <thead>
@@ -13,12 +13,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
             </th>
             <th />
         </tr>
@@ -32,12 +26,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
                     <button type="submit" method="post" asp-action="CheckIn" asp-route-id="@item.Id">Check In</button>

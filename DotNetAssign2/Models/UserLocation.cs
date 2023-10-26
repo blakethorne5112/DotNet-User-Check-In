@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DotNetAssign2.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 /// <summary>
 /// This class is used to represent the relationship between a user and an event.
@@ -13,25 +14,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Models
 {
-    [PrimaryKey(nameof(UsersId), nameof(EventsId))]
-    public class UserEvent : DbContext
+    [PrimaryKey(nameof(UserId), nameof(LocationId))]
+    public class UserLocation : ApplicationDbContext
     {
-        public int UsersId { get; set; }
-        public int EventsId { get; set; }
+        public string UserId { get; set; } = null!;
+        public int LocationId { get; set; }
 
         public User User { get; set; } = null!;
-        public Event Event { get; set; } = null!;
+        public Location Location { get; set; } = null!;
 
-        [Required]
         public DateTime CheckinTime { get; set; }
-
         public DateTime? CheckoutTime { get; set; } = null;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserEvent>()
-                .Property(e => e.CheckinTime)
-                .HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<UserLocation>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.UserLocations)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<UserLocation>()
+                .HasOne(e => e.Location)
+                .WithMany(e => e.UserLocations)
+                .HasForeignKey(e => e.LocationId)
+                .IsRequired();
         }
     }
 }

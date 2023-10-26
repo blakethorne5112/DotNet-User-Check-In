@@ -5,14 +5,14 @@ namespace DotNetAssign2.Data
 {
     public class ApplicationDbContext : IdentityDbContext<Models.User>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\\mssqllocaldb;Database=aspnet-DotNetAssign2-e2b8a38c-16be-41d8-838c-604bbed9fd3;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
-        public DbSet<DotNetAssign2.Models.Event> Events { get; set; } = default!;
+        public DbSet<DotNetAssign2.Models.Location> Locations { get; set; } = default!;
 
-        public DbSet<DotNetAssign2.Models.UserEvent> UserEvents { get; set; } = default!;
+        public DbSet<DotNetAssign2.Models.UserLocation> UserLocation { get; set; } = default!;
 
         // public DbSet<DotNetAssign2.Models.Users> Users { get; set; } = default!;
     }
