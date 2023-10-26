@@ -12,9 +12,9 @@ namespace DotNetAssign2.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UsersContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public UsersController(UsersContext context)
+        public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }

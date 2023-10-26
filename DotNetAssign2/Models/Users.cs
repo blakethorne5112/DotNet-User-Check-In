@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotNetAssign2.Models
 {
-    public class Users
+    public class Users : IdentityUser
     {
         [Required]
         public int ID { get; set; }
@@ -12,7 +13,7 @@ namespace DotNetAssign2.Models
         public string? Name { get; set; }
         [Required]
         [EmailAddress]
-        public string? Email { get; set;}
+        public override string? Email { get; set;}
         [Required]
         [StringLength(10)]
         public string? Phone { get; set; }

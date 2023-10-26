@@ -7,6 +7,10 @@
     "mssql2": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:UsersContext"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:EventsContext"
     }
   }
 }
