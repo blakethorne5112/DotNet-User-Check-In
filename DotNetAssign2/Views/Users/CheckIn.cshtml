@@ -4,12 +4,54 @@
     ViewData["Title"] = "Check In";
 }
 
-<h1>Check In</h1>
-@*
-<h4>Users</h4> *@
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 0;
+    }
+
+    p.lead {
+        font-size: 18px;
+        color: #666;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .btn-primary {
+        font-size: 20px;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1>Check In</h1>
+        <p class="lead">Please fill out the form below to check in.</p>
+        <hr />
         <form asp-action="CheckIn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -27,31 +69,12 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            @*             <div class="form-group form-check">
-            <label class="form-check-label">
-            <input class="form-check-input" asp-for="CheckedIn" /> @Html.DisplayNameFor(model => model.CheckedIn)
-            </label>
-            </div> *@
-            @*             <div class="form-group">
-            <label asp-for="CheckInTime" class="control-label"></label>
-            <input asp-for="CheckInTime" class="form-control" />
-            <span asp-validation-for="CheckInTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-            <label asp-for="CheckOutTime" class="control-label"></label>
-            <input asp-for="CheckOutTime" class="form-control" />
-            <span asp-validation-for="CheckOutTime" class="text-danger"></span>
-            </div> *@
             <div class="form-group">
                 <input type="submit" value="Check In" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
-@* <div>
-    <a asp-action="Index">Back to List</a>
-</div> *@
 
 @section Scripts {
     @{
