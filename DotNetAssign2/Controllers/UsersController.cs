@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DotNetAssign2.Data;
 using DotNetAssign2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotNetAssign2.Controllers
 {
@@ -20,6 +21,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users
+        [Authorize(Roles = "Administrator,Staff")]
         public async Task<IActionResult> Records()
         {
               return _context.Users != null ? 
@@ -77,6 +79,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Users == null)
@@ -97,6 +100,7 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
             if (id != users.ID)

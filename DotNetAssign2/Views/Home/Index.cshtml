@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -11,6 +13,15 @@
 <div class="text-center" style="padding-top: 20px">
     <a asp-area="" asp-controller="Users" asp-action="CheckOut" type="button" class="btn btn-danger btn-lg">Check Out</a>
 </div>
-<div class="text-center" style="padding-top: 20px">
-    <a asp-area="" asp-controller="Users" asp-action="Records" type="button" class="btn btn-primary btn-lg">Records</a>
-</div>
+@if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
+{
+    <div class="text-center" style="padding-top: 20px">
+        <a asp-area="" asp-controller="Users" asp-action="Records" type="button" class="btn btn-primary btn-lg">Records</a>
+    </div>
+}
+@if (User.IsInRole("Administrator"))
+{
+    <div class="text-center" style="padding-top: 20px">
+        <a asp-area="" asp-controller="Roles" asp-action="Index" type="button" class="btn btn-primary btn-lg">Roles</a>
+    </div>
+}

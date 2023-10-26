@@ -1,0 +1,15 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item">Profile</li>
+    <li class="nav-item">Email</li>
+    <li class="nav-item">Password</li>
+    @if (hasExternalLogins)
+    {
+        <li id="external-logins" class="nav-item">External logins</li>
+    }
+    <li class="nav-item">Two-factor authentication</li>
+    <li class="nav-item">Personal data</li>
+</ul>
