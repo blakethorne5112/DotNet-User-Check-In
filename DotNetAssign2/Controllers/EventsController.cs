@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
 using DotNetAssign2.Data;
 using Microsoft.AspNetCore.Mvc;
 
