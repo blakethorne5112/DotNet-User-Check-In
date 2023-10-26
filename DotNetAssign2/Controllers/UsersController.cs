@@ -71,6 +71,18 @@ namespace DotNetAssign2.Controllers
                 users.CheckOutTime = DateTime.Now;
                 _context.Add(users);
                 await _context.SaveChangesAsync();
+
+                if (users.Phone != null)
+                {
+                    Response.Cookies.Append("phoneNumber", users.Phone, new CookieOptions
+                    {
+                        Path = "/",
+                        HttpOnly = true, 
+                        Secure = true,   
+                        MaxAge = TimeSpan.FromDays(30) // Set the cookie to expire in 30 days
+                    });
+                }
+
                 return RedirectToAction("Index", "Home");
             }
             return View(users);
