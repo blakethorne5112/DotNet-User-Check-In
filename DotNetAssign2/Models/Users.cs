@@ -10,9 +10,9 @@ namespace DotNetAssign2.Models
         [Required]
         [EmailAddress]
         public override string? Email { get; set;}
-        [Required]
-        [StringLength(10)]
-        public string? Phone { get; set; }
+        // [Required]
+        // [StringLength(10)]
+        // public string? Phone { get; set; }
         public bool CheckedIn { get; set; }
         public DateTime CheckInTime { get; set; }
         public DateTime CheckOutTime { get; set; }

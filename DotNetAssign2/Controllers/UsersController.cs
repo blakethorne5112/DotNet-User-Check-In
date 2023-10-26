@@ -133,14 +133,14 @@ namespace DotNetAssign2.Controllers
         {
             foreach (Users user in _context.Users)
             {
-                if (users.Phone == user.Phone)
+                if (users.PhoneNumber == user.PhoneNumber)
                 {
                     users = user;
                 }
             }
             users.UserName = users.UserName;
             users.Email = users.Email;
-            users.Phone = users.Phone;
+            users.PhoneNumber = users.PhoneNumber;
             users.CheckedIn = false;
             users.CheckInTime = users.CheckInTime;
             users.CheckOutTime = DateTime.Now;
