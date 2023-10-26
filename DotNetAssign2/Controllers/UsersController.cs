@@ -54,7 +54,13 @@ namespace DotNetAssign2.Controllers
         // GET: Users/CheckOut
         public IActionResult CheckOut()
         {
-            return View();
+            var user = new Users(); 
+            if (Request.Cookies.TryGetValue("phoneNumber", out var phoneNumber))
+            {
+                user.Phone = phoneNumber;
+            }
+
+            return View(user); // pass the user model to the view
         }
 
         // POST: Users/Create
