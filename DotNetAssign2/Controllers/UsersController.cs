@@ -138,7 +138,7 @@ namespace DotNetAssign2.Controllers
                     users = user;
                 }
             }
-            users.Name = users.Name;
+            users.UserName = users.UserName;
             users.Email = users.Email;
             users.Phone = users.Phone;
             users.CheckedIn = false;
