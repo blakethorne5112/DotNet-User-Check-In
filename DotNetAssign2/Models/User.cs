@@ -2,6 +2,8 @@
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using DotNetAssign2.Data;
 
 namespace DotNetAssign2.Models
 {
@@ -16,6 +18,8 @@ namespace DotNetAssign2.Models
         public bool CheckedIn { get; set; }
         public DateTime CheckInTime { get; set; }
         public DateTime CheckOutTime { get; set; }
+
+        public bool IsAdmin { get; set; } = false;
 
         public List<UserEvent> UserEvents { get; } = new (); 
     }

@@ -12,6 +12,8 @@ namespace DotNetAssign2.Data
 
         public DbSet<DotNetAssign2.Models.Event> Events { get; set; } = default!;
 
+        public DbSet<DotNetAssign2.Models.UserEvent> UserEvents { get; set; } = default!;
+
         // public DbSet<DotNetAssign2.Models.Users> Users { get; set; } = default!;
     }
 }
