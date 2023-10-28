@@ -153,13 +153,23 @@ namespace DotNetAssign2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckOut([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
+            bool found = false;
             foreach (Users user in _context.Users)
             {
-                if (users.Phone == user.Phone)
+                if (users.Phone == user.Phone && user.CheckedIn == true)
                 {
                     users = user;
+                    found = true;
                 }
             }
+            if (!found)
+            {
+                // No matching user found, display an error message to the user
+                TempData["ErrorMessage"] = "There is no one matching that phone number.";
+                return View("CheckOut", users);
+            }
+
+            // Updating user information
             users.Name = users.Name;
             users.Email = users.Email;
             users.Phone = users.Phone;
@@ -168,6 +178,8 @@ namespace DotNetAssign2.Controllers
             users.CheckOutTime = DateTime.Now;
             _context.Update(users);
             await _context.SaveChangesAsync();
+
+            // Redirect to home. 
             return RedirectToAction("Index", "Home");
         }
 
