@@ -1,4 +1,8 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
 @model IEnumerable<DotNetAssign2.Models.Locations>
+@inject UserManager<IdentityUser> UserManager
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +10,11 @@
 
 <h1>Locations</h1>
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
+@if (User.IsInRole("Staff") || User.IsInRole("Administrator")) {
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +43,15 @@
                 @Html.DisplayFor(modelItem => item.MapsLink)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (User.IsInRole("Staff") || User.IsInRole("Administrator")) {
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                }
+                <a asp-action="CheckIn" asp-route-id="@item.Id">Check in</a>
+                <a asp-action="CheckOut" asp-route-id="@item.Id">Check out</a>
             </td>
         </tr>
 }
