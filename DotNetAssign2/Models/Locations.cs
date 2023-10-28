@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotNetAssign2.Models
 {
+    /// <summary>
+    /// The class for locations.
+    /// </summary>
     public class Locations
     {
         // [Required]
@@ -16,6 +19,8 @@ namespace DotNetAssign2.Models
         [Required]
         [Url]
         public string? MapsLink { get; set; }
+
+        public List<UsersLocations> UsersLocations { get; } = default!;
     }
 
 /*    public class UsersDBContext : DbContext

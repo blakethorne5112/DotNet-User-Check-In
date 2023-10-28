@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotNetAssign2.Models
 {
+    /// <summary>
+    /// The anonymous user class.
+    /// </summary>
     public class Users
     {
         [Required]
@@ -19,6 +22,8 @@ namespace DotNetAssign2.Models
         public bool CheckedIn { get; set; }
         public DateTime CheckInTime { get; set; }
         public DateTime CheckOutTime { get; set; }
+
+        public List<UsersLocations> UsersLocations { get; } = default!;
     }
 
 /*    public class UsersDBContext : DbContext

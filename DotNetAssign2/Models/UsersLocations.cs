@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Models
 {
+    /// <summary>
+    /// This class is used to store the check-in and check-out times of users at locations.
+    /// </summary>
     [PrimaryKey(nameof(UsersID), nameof(LocationsID))]
     public class UsersLocations
     {
