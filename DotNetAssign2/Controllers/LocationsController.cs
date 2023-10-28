@@ -37,7 +37,7 @@ namespace DotNetAssign2.Controllers
 
             if (location == null)
             {
-                return NotFound();
+                return NotFound("Location not found.");
             }
 
             var userLocations = await _context.UserLocations
@@ -46,7 +46,7 @@ namespace DotNetAssign2.Controllers
 
             if (userLocations == null)
             {
-                return NotFound();
+                return NotFound("No users checked in.");
             }
 
             return View(userLocations);
@@ -62,7 +62,7 @@ namespace DotNetAssign2.Controllers
 
             if (location == null)
             {
-                return NotFound();
+                return NotFound("Location not found.");
             }
 
             return View(location);
@@ -75,7 +75,7 @@ namespace DotNetAssign2.Controllers
             var location = await _context.Locations.FindAsync(id);
             if (location == null)
             {
-                return NotFound();
+                return NotFound("Location not found.");
             }
 
             _context.Locations.Remove(location);
@@ -87,11 +87,16 @@ namespace DotNetAssign2.Controllers
         // Check a user into a location
         [HttpPost("locations/{id}/checkin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int? eventId)
+        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int eventId)
         {
-            if (!eventId.HasValue)
+
+            var location = await _context.Locations
+                .Where(m => m.Id == eventId)
+                .FirstOrDefaultAsync();
+
+            if (location == null)
             {
-                return NotFound();
+                return NotFound("Location not found.");
             }
 
             // Check if the user is already checked in by getting the UsersLocations record for the user and location
@@ -117,7 +122,7 @@ namespace DotNetAssign2.Controllers
                 var newUserLocation = new UsersLocations()
                 {
                     UsersID = users.ID,
-                    LocationsId = eventId.Value,
+                    LocationsId = eventId,
                     CheckedIn = true,
                     CheckInTime = DateTime.Now,
                     CheckOutTime = null
