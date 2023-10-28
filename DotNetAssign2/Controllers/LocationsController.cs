@@ -1,10 +1,14 @@
-using System.Data.Entity;
 using DotNetAssign2.Data;
 using DotNetAssign2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Controllers
 {
+    /// <summary>
+    /// The controller for locations.
+    /// </summary>
     public class LocationsController : Controller
     {
         private readonly UsersContext _context;
@@ -22,39 +26,31 @@ namespace DotNetAssign2.Controllers
             return View(locations);
         }
 
-        // GET: Locations/5/Records
         // Get a list of user records for a location
         [HttpGet("locations/{id}")]
-        public async Task<IActionResult> Records(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var location = await _context.Locations
-                .Where(m => m.Id == id)
-                .Include(m => m.UsersLocations)
-                .FirstOrDefaultAsync();
+            var userLocations = await _context.UserLocations
+                .Where(m => m.LocationsId == id)
+                .ToListAsync();
 
-            if (location == null)
+            if (userLocations == null)
             {
                 return NotFound();
             }
 
-            return View(location.UsersLocations);
+            return View(userLocations);
         }
 
-        // GET: Locations/5/Details
         // Get the details of a location
         [HttpGet("locations/{id}/details")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var location = await _context.Locations
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
@@ -67,7 +63,22 @@ namespace DotNetAssign2.Controllers
             return View(location);
         }
 
-        // POST: Locations/5/CheckIn
+        [HttpDelete("locations/{id}")]
+        [Authorize(Roles = "Administrator,Staff")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var location = await _context.Locations.FindAsync(id);
+            if (location == null)
+            {
+                return NotFound();
+            }
+
+            _context.Locations.Remove(location);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         // Check a user into a location
         [HttpPost("locations/{id}/checkin")]
         [ValidateAntiForgeryToken]
@@ -81,7 +92,7 @@ namespace DotNetAssign2.Controllers
             // Check if the user is already checked in by getting the UsersLocations record for the user and location
             var userLocation = await _context.UserLocations
                 .Where(m => m.UsersID == users.ID)
-                .Where(m => m.LocationsID == eventId)
+                .Where(m => m.LocationsId == eventId)
                 .FirstOrDefaultAsync();
 
             if (userLocation != null)
@@ -101,7 +112,7 @@ namespace DotNetAssign2.Controllers
                 var newUserLocation = new UsersLocations()
                 {
                     UsersID = users.ID,
-                    LocationsID = eventId.Value,
+                    LocationsId = eventId.Value,
                     CheckedIn = true,
                     CheckInTime = DateTime.Now,
                     CheckOutTime = null
@@ -151,17 +162,12 @@ namespace DotNetAssign2.Controllers
         // Check a user out of a location
         [HttpPost("locations/{eventId}/checkout")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int? eventId)
+        public async Task<IActionResult> CheckOut([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int eventId)
         {
-            if (!eventId.HasValue)
-            {
-                return NotFound();
-            }
-
             // Check if the user is already checked in by getting the UsersLocations record for the user and location
             var userLocation = await _context.UserLocations
                 .Where(m => m.UsersID == users.ID)
-                .Where(m => m.LocationsID == eventId)
+                .Where(m => m.LocationsId == eventId)
                 .FirstOrDefaultAsync();
 
             if (userLocation == null)
@@ -191,6 +197,7 @@ namespace DotNetAssign2.Controllers
         // GET: Locations/Create
         // Get the create location page
         [HttpGet("locations/create")]
+        [Authorize(Roles = "Administrator,Staff")]
         public IActionResult Create()
         {
             return View();
@@ -199,6 +206,7 @@ namespace DotNetAssign2.Controllers
         // POST: Locations/Create
         // Create a new location
         [HttpPost("locations/create")]
+        [Authorize(Roles = "Administrator,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,MapsLink")] Locations locations)
         {
@@ -214,6 +222,7 @@ namespace DotNetAssign2.Controllers
         // GET: Locations/5/Edit
         // Get the edit location page
         [HttpGet("locations/{id}/edit")]
+        [Authorize(Roles = "Administrator,Staff")]
         public async Task<IActionResult> Edit(int id)
         {
             var locations = await _context.Locations.FindAsync(id);

@@ -5,7 +5,7 @@
 namespace DotNetAssign2.Migrations
 {
     /// <inheritdoc />
-    public partial class NavigationRelation : Migration
+    public partial class NavigationRelationnew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Models
@@ -6,14 +7,12 @@ namespace DotNetAssign2.Models
     /// <summary>
     /// This class is used to store the check-in and check-out times of users at locations.
     /// </summary>
-    [PrimaryKey(nameof(UsersID), nameof(LocationsID))]
-    public class UsersLocations
+    [PrimaryKey(nameof(UsersID), nameof(LocationsId))]
+    public class UsersLocations : DbContext
     {
         public int UsersID { get; set; }
-        public Users Users { get; set; } = default!;
 
-        public int LocationsID { get; set; }
-        public Locations Locations { get; set; } = default!;
+        public int LocationsId { get; set; }
 
         public bool CheckedIn { get; set; }
         [Required]

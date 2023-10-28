@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetAssign2.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20231028113838_EventRsvp")]
-    partial class EventRsvp
+    [Migration("20231028123646_NavigationRelation")]
+    partial class NavigationRelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,7 +90,7 @@ namespace DotNetAssign2.Migrations
                     b.Property<int>("UsersID")
                         .HasColumnType("int");
 
-                    b.Property<int>("LocationsID")
+                    b.Property<int>("LocationsId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CheckInTime")
@@ -102,30 +102,9 @@ namespace DotNetAssign2.Migrations
                     b.Property<bool>("CheckedIn")
                         .HasColumnType("bit");
 
-                    b.HasKey("UsersID", "LocationsID");
-
-                    b.HasIndex("LocationsID");
+                    b.HasKey("UsersID", "LocationsId");
 
                     b.ToTable("UserLocations");
-                });
-
-            modelBuilder.Entity("DotNetAssign2.Models.UsersLocations", b =>
-                {
-                    b.HasOne("DotNetAssign2.Models.Locations", "Locations")
-                        .WithMany()
-                        .HasForeignKey("LocationsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DotNetAssign2.Models.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UsersID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Locations");
-
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

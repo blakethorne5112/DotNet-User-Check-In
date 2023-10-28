@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetAssign2.Models
 {
     /// <summary>
     /// The anonymous user class.
     /// </summary>
-    public class Users
+    public class Users: DbContext
     {
         [Required]
         public int ID { get; set; }
@@ -22,8 +23,6 @@ namespace DotNetAssign2.Models
         public bool CheckedIn { get; set; }
         public DateTime CheckInTime { get; set; }
         public DateTime CheckOutTime { get; set; }
-
-        public List<UsersLocations> UsersLocations { get; } = default!;
     }
 
 /*    public class UsersDBContext : DbContext
