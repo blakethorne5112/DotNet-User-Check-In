@@ -10,27 +10,92 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav
+            class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 custom-navbar">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DotNetAssign2</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand custom-navbar-brand" asp-area="" asp-controller="Home"
+                    asp-action="Index">DotNetAssign2</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link custom-nav-link" asp-area="" asp-controller="Home"
+                                asp-action="Index">Home</a>
                         </li>
-@*                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li> *@
+                        <!-- Add other nav items here -->
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="custom-login-register">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
+    
+    <style>
+        /* Custom Navbar Styles */
+        .custom-navbar {
+            background-color: #007BFF;
+            /* Blue background color */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+
+        .custom-navbar-brand {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-nav-item {
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .custom-nav-link {
+            background-color: #00BFFF;
+            /* Lighter shade of blue */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            /* Updated padding for better visual appearance with larger text */
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 18px;
+            /* Increased font size */
+        }
+
+        .custom-nav-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-login-register a {
+            background-color: #00BFFF;
+            /* Lighter shade of blue */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            /* Updated padding for better visual appearance with larger text */
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-right: 8px;
+            /* Added margin to create space between buttons */
+            font-size: 18px;
+            /* Increased font size */
+        }
+
+        .custom-login-register a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

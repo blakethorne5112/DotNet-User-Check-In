@@ -3,25 +3,46 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<div class="box">
+    <div>
+        <h1 class="display-4">Welcome to the .NET Check In System</h1>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to the .NET Check In System</h1>
-</div>
-<div class="text-center" style="padding-top: 20px">
-    <a asp-area="" asp-controller="Users" asp-action="CheckIn" type="button" class="btn btn-success btn-lg">Check In</a>
-</div>
-<div class="text-center" style="padding-top: 20px">
-    <a asp-area="" asp-controller="Users" asp-action="CheckOut" type="button" class="btn btn-danger btn-lg">Check Out</a>
-</div>
-@if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
-{
-    <div class="text-center" style="padding-top: 20px">
-        <a asp-area="" asp-controller="Users" asp-action="Records" type="button" class="btn btn-primary btn-lg">Records</a>
+    <div style="padding-top: 20px">
+        <a asp-area="" asp-controller="Users" asp-action="CheckIn" type="button" class="btn btn-success btn-lg">Check In</a>
     </div>
-}
-@if (User.IsInRole("Administrator"))
-{
-    <div class="text-center" style="padding-top: 20px">
-        <a asp-area="" asp-controller="Roles" asp-action="Index" type="button" class="btn btn-primary btn-lg">Roles</a>
+    <div style="padding-top: 20px">
+        <a asp-area="" asp-controller="Users" asp-action="CheckOut" type="button" class="btn btn-danger btn-lg">Check Out</a>
     </div>
-}
+    @if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
+    {
+        <div style="padding-top: 20px">
+            <a asp-area="" asp-controller="Users" asp-action="Records" type="button"
+                class="btn btn-primary btn-lg">Records</a>
+        </div>
+    }
+    @if (User.IsInRole("Administrator"))
+    {
+        <div style="padding-top: 20px">
+            <a asp-area="" asp-controller="Roles" asp-action="Index" type="button" class="btn btn-primary btn-lg">Roles</a>
+        </div>
+    }
+</div>
+
+
+
+<style> 
+    /* Custom styles for buttons and box */
+    .box {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin: 20px;
+        text-align: center;
+    }
+
+    .btn-lg:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+</style>
