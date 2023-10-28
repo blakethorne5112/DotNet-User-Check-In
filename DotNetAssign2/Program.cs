@@ -1,4 +1,4 @@
-using DotNetAssign2.Data;
+﻿using DotNetAssign2.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +39,10 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<UsersContext>();
     db.Database.Migrate();
+
+    // Create roles
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    CreateRoles(roleManager).Wait();
 }
 
 app.UseHttpsRedirection();
@@ -55,3 +59,20 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+async Task CreateRoles(RoleManager<IdentityRole> roleManager)
+{
+    string[] roleNames = { "Staff", "Administrator" };
+    IdentityResult roleResult;
+
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+            // Create the roles and seed them to the database
+            roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+}
