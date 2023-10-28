@@ -8,22 +8,22 @@
         <h1 class="display-4">Welcome to the .NET Check In System</h1>
     </div>
 
-    <div style="padding-top: 20px">
+    <div style="padding-top: 20px" class="d-grid gap-2">
         <a asp-area="" asp-controller="Users" asp-action="CheckIn" type="button" class="btn btn-success btn-lg">Check In</a>
     </div>
-    <div style="padding-top: 20px">
+    <div style="padding-top: 20px" class="d-grid gap-2">
         <a asp-area="" asp-controller="Users" asp-action="CheckOut" type="button" class="btn btn-danger btn-lg">Check Out</a>
     </div>
     @if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
     {
-        <div style="padding-top: 20px">
+        <div style="padding-top: 20px" class="d-grid gap-2">
             <a asp-area="" asp-controller="Users" asp-action="Records" type="button"
                 class="btn btn-primary btn-lg">Records</a>
         </div>
     }
     @if (User.IsInRole("Administrator"))
     {
-        <div style="padding-top: 20px">
+        <div style="padding-top: 20px" class="d-grid gap-2">
             <a asp-area="" asp-controller="Roles" asp-action="Index" type="button" class="btn btn-primary btn-lg">Roles</a>
         </div>
     }
