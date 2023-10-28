@@ -170,11 +170,7 @@ namespace DotNetAssign2.Controllers
             }
 
             // Updating user information
-            users.Name = users.Name;
-            users.Email = users.Email;
-            users.Phone = users.Phone;
             users.CheckedIn = false;
-            users.CheckInTime = users.CheckInTime;
             users.CheckOutTime = DateTime.Now;
             _context.Update(users);
             await _context.SaveChangesAsync();

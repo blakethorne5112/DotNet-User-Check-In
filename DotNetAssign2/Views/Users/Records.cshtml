@@ -22,13 +22,13 @@
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CheckedIn)
+                Checked In?
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CheckInTime)
+                Time of Check In
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CheckOutTime)
+                Time of Check Out
             </th>
             <th></th>
         </tr>
@@ -46,7 +46,14 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CheckedIn)
+                @if (item.CheckedIn == true)
+                {
+                    <text>Yes</text>
+                }
+                else
+                {
+                    <text>No</text>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CheckInTime)
