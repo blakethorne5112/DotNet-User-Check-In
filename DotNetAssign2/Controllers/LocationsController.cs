@@ -29,9 +29,13 @@ namespace DotNetAssign2.Controllers
 
         // Get a list of user records for a location
         [HttpGet("locations/{id}")]
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> UserLocations(int id)
         {
-            if (id == null)
+            var location = await _context.Locations
+                .Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (location == null)
             {
                 return NotFound();
             }
@@ -136,16 +140,12 @@ namespace DotNetAssign2.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-            return View(users);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("locations/{id}/checkin")]
-        public async Task<IActionResult> CheckIn(int? id)
+        public async Task<IActionResult> CheckIn(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             var location = await _context.Locations
                 .Where(m => m.Id == id)

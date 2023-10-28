@@ -1,0 +1,23 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
+@model DotNetAssign2.Models.Locations
+@inject UserManager<IdentityUser> UserManager
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Location Details";
+}
+
+<h1>Locations</h1>
+
+@if (User.IsInRole("Staff") || User.IsInRole("Administrator")) {
+    <p>
+        <a asp-action="Edit">Edit</a>
+    </p>
+}
+
+<h3>@Html.DisplayNameFor(model => model.Name)</h3>
+<p>
+    @Html.DisplayNameFor(model => model.Description)
+</p>
+<a href="@Model.MapsLink">Map Link</a>

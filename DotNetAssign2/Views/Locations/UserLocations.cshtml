@@ -1,0 +1,42 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
+@model IEnumerable<DotNetAssign2.Models.UsersLocations>
+@inject UserManager<IdentityUser> UserManager
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Location Check-Ins";
+}
+
+<h1>Location Check-Ins</h1>
+
+@if (User.IsInRole("Staff") || User.IsInRole("Administrator")) {
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationsId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsersID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationsId)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
