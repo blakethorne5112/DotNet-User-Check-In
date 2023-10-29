@@ -21,13 +21,20 @@
                 class="btn btn-primary btn-lg">Records</a>
         </div>
     }
+    @if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
+    {
+        <div class="d-grid gap-2 custom-btn">
+            <a asp-area="" asp-controller="Locations" asp-action="Index" type="button"
+                class="btn btn-primary btn-lg">Locations</a>
+        </div>
+    }
     @if (User.IsInRole("Administrator"))
     {
         <div class="d-grid gap-2 custom-btn">
             <a asp-area="" asp-controller="Roles" asp-action="Index" type="button" class="btn btn-primary btn-lg">Roles</a>
         </div>
     }
-</div>
+</>
 
 
 
