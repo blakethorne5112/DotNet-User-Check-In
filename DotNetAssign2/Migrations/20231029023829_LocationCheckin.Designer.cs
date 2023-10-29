@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetAssign2.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20231028124021_NavigationRelationnew")]
-    partial class NavigationRelationnew
+    [Migration("20231029023829_LocationCheckin")]
+    partial class LocationCheckin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
