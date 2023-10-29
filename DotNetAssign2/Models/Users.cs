@@ -8,7 +8,7 @@ namespace DotNetAssign2.Models
     /// <summary>
     /// The anonymous user class.
     /// </summary>
-    public class Users: DbContext
+    public class Users
     {
         [Required]
         public int ID { get; set; }
@@ -24,9 +24,4 @@ namespace DotNetAssign2.Models
         public DateTime CheckInTime { get; set; }
         public DateTime CheckOutTime { get; set; }
     }
-
-/*    public class UsersDBContext : DbContext
-    {
-        public DbSet<Users> Users { get; set; }
-    }*/
 }

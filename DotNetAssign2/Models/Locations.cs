@@ -8,7 +8,7 @@ namespace DotNetAssign2.Models
     /// <summary>
     /// The class for locations.
     /// </summary>
-    public class Locations : DbContext
+    public class Locations
     {
         // [Required]
         public int Id { get; set; }
@@ -21,9 +21,4 @@ namespace DotNetAssign2.Models
         [Url]
         public string? MapsLink { get; set; }
     }
-
-/*    public class UsersDBContext : DbContext
-    {
-        public DbSet<Users> Users { get; set; }
-    }*/
 }

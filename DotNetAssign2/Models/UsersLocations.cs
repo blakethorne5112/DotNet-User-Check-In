@@ -8,7 +8,7 @@ namespace DotNetAssign2.Models
     /// This class is used to store the check-in and check-out times of users at locations.
     /// </summary>
     [PrimaryKey(nameof(UsersID), nameof(LocationsId))]
-    public class UsersLocations : DbContext
+    public class UsersLocations
     {
         public int UsersID { get; set; }
 
@@ -20,9 +20,4 @@ namespace DotNetAssign2.Models
 
         public DateTime? CheckOutTime { get; set; } = null;
     }
-
-/*    public class UsersDBContext : DbContext
-    {
-        public DbSet<Users> Users { get; set; }
-    }*/
 }
