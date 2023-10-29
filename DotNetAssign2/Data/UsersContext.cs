@@ -15,5 +15,7 @@ namespace DotNetAssign2.Data
         }
 
         public DbSet<DotNetAssign2.Models.Users> Users { get; set; } = default!;
+
+        public DbSet<DotNetAssign2.Models.Locations> Locations { get; set; } = default!;
     }
 }
