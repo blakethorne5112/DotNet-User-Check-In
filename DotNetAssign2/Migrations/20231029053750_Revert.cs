@@ -1,16 +1,21 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace DotNetAssign2.Migrations
 {
     /// <inheritdoc />
-    public partial class LocationCheckin : Migration
+    public partial class Revert : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<int>(
+                name: "LastCheckedInLocationId",
+                table: "Users",
+                type: "int",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
@@ -25,21 +30,6 @@ namespace DotNetAssign2.Migrations
                 {
                     table.PrimaryKey("PK_Locations", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "UserLocations",
-                columns: table => new
-                {
-                    UsersID = table.Column<int>(type: "int", nullable: false),
-                    LocationsId = table.Column<int>(type: "int", nullable: false),
-                    CheckedIn = table.Column<bool>(type: "bit", nullable: false),
-                    CheckInTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CheckOutTime = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLocations", x => new { x.UsersID, x.LocationsId });
-                });
         }
 
         /// <inheritdoc />
@@ -48,8 +38,9 @@ namespace DotNetAssign2.Migrations
             migrationBuilder.DropTable(
                 name: "Locations");
 
-            migrationBuilder.DropTable(
-                name: "UserLocations");
+            migrationBuilder.DropColumn(
+                name: "LastCheckedInLocationId",
+                table: "Users");
         }
     }
 }

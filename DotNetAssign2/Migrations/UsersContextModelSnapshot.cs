@@ -55,9 +55,21 @@ namespace DotNetAssign2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<DateTime>("CheckInTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOutTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("CheckedIn")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LastCheckedInLocationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -71,28 +83,6 @@ namespace DotNetAssign2.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DotNetAssign2.Models.UsersLocations", b =>
-                {
-                    b.Property<int>("UsersID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LocationsId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CheckInTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("CheckOutTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("CheckedIn")
-                        .HasColumnType("bit");
-
-                    b.HasKey("UsersID", "LocationsId");
-
-                    b.ToTable("UserLocations");
                 });
 #pragma warning restore 612, 618
         }

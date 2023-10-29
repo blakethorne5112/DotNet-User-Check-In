@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetAssign2.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20231029023829_LocationCheckin")]
-    partial class LocationCheckin
+    [Migration("20231029053750_Revert")]
+    partial class Revert
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,6 +71,9 @@ namespace DotNetAssign2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("LastCheckedInLocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,28 +86,6 @@ namespace DotNetAssign2.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DotNetAssign2.Models.UsersLocations", b =>
-                {
-                    b.Property<int>("UsersID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LocationsId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CheckInTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("CheckOutTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("CheckedIn")
-                        .HasColumnType("bit");
-
-                    b.HasKey("UsersID", "LocationsId");
-
-                    b.ToTable("UserLocations");
                 });
 #pragma warning restore 612, 618
         }
