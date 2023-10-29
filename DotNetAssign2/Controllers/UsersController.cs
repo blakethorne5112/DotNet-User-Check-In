@@ -24,9 +24,9 @@ namespace DotNetAssign2.Controllers
         [Authorize(Roles = "Administrator,Staff")]
         public async Task<IActionResult> Records()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'UsersContext.Users'  is null.");
+            return _context.Users != null ?
+                        View(await _context.Users.ToListAsync()) :
+                        Problem("Entity set 'UsersContext.Users'  is null.");
         }
 
         // GET: Users/Details/5
@@ -49,15 +49,29 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Create
-        public IActionResult CheckIn()
+        public async Task<IActionResult> CheckIn()
         {
-            return View();
+            var locations = await _context.Locations.ToListAsync();
+
+            // map over locations and covert to MVC SelectListItems
+            var locationSelectListItems = locations.Select(location => new SelectListItem
+            {
+                Text = location.Name,
+                Value = location.Id.ToString()
+            });
+
+            var registerModel = new CheckinScreenModel
+            {
+                Locations = locationSelectListItems
+            };
+
+            return View(registerModel);
         }
 
         // GET: Users/CheckOut
         public IActionResult CheckOut()
         {
-            var user = new Users(); 
+            var user = new Users();
             if (Request.Cookies.TryGetValue("phoneNumber", out var phoneNumber))
             {
                 user.Phone = phoneNumber;
@@ -71,8 +85,11 @@ namespace DotNetAssign2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
+        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime,LastCheckedInLocationId")] Users users)
         {
+            var locations = await _context.Locations.ToListAsync();
+
+
             if (ModelState.IsValid)
             {
                 // users.CheckedIn = true;
@@ -86,14 +103,23 @@ namespace DotNetAssign2.Controllers
                     Response.Cookies.Append("phoneNumber", users.Phone, new CookieOptions
                     {
                         Path = "/",
-                        HttpOnly = true, 
-                        Secure = true,   
+                        HttpOnly = true,
+                        Secure = true,
                         MaxAge = TimeSpan.FromDays(30) // Set the cookie to expire in 30 days
                     });
                 }
 
                 return RedirectToAction("Index", "Home");
             }
+
+            new CheckinScreenModel
+            {
+                Locations = locations.Select(location => new SelectListItem
+                {
+                    Text = location.Name,
+                    Value = location.Id.ToString()
+                })
+            };
             return View(users);
         }
 
@@ -214,14 +240,14 @@ namespace DotNetAssign2.Controllers
             {
                 _context.Users.Remove(users);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Records));
         }
 
         private bool UsersExists(int id)
         {
-          return (_context.Users?.Any(e => e.ID == id)).GetValueOrDefault();
+            return (_context.Users?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

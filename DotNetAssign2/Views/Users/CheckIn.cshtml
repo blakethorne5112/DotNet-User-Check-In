@@ -1,4 +1,4 @@
-﻿@model DotNetAssign2.Models.Users
+﻿@model DotNetAssign2.Models.CheckinScreenModel
 
 @{
     ViewData["Title"] = "Check In";
@@ -27,15 +27,22 @@
                     <input asp-for="Phone" class="form-control" />
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <select asp-for="LastCheckedInLocationId" class="form-select" asp-items="@Model.Locations" aria-required="true">
+                        <option disabled selected>Select Location</option>
+                    </select>
+                    <span asp-validation-for="LastCheckedInLocationId" class="text-danger"></span>
+                </div>
                 <div class="form-group submit-group d-grid gap-2">
                     <input type="submit" value="Check In" class="btn btn-primary" />
                 </div>
+
             </form>
         </div>
     </div>
 </div>
 
-<style> 
+<style>
     /* Custom styles for the box */
     .box {
         background-color: #f9f9f9;
