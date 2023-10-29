@@ -8,22 +8,22 @@
         <h1 class="display-4">Welcome to the .NET Check In System</h1>
     </div>
 
-    <div style="padding-top: 20px">
+    <div class="d-grid gap-2 custom-btn">
         <a asp-area="" asp-controller="Users" asp-action="CheckIn" type="button" class="btn btn-success btn-lg">Check In</a>
     </div>
-    <div style="padding-top: 20px">
+    <div class="d-grid gap-2 custom-btn">
         <a asp-area="" asp-controller="Users" asp-action="CheckOut" type="button" class="btn btn-danger btn-lg">Check Out</a>
     </div>
     @if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
     {
-        <div style="padding-top: 20px">
+        <div class="d-grid gap-2 custom-btn">
             <a asp-area="" asp-controller="Users" asp-action="Records" type="button"
                 class="btn btn-primary btn-lg">Records</a>
         </div>
     }
     @if (User.IsInRole("Administrator"))
     {
-        <div style="padding-top: 20px">
+        <div class="d-grid gap-2 custom-btn">
             <a asp-area="" asp-controller="Roles" asp-action="Index" type="button" class="btn btn-primary btn-lg">Roles</a>
         </div>
     }
@@ -37,9 +37,15 @@
         background-color: #f9f9f9;
         border-radius: 8px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        padding: 20px;
+        padding: 50px;
         margin: 20px;
         text-align: center;
+    }
+
+    .custom-btn {
+        padding-top: 20px;
+        padding-left: 200px;
+        padding-right: 200px;
     }
 
     .btn-lg:hover {

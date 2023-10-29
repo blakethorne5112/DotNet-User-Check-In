@@ -6,7 +6,7 @@
 
 
 <div class="box">
-    <h1>Check In</h1>
+    <h1 style="text-align:center">Check In</h1>
     <hr />
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -27,7 +27,7 @@
                     <input asp-for="Phone" class="form-control" />
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
-                <div class="form-group submit-group">
+                <div class="form-group submit-group d-grid gap-2">
                     <input type="submit" value="Check In" class="btn btn-primary" />
                 </div>
             </form>
@@ -43,7 +43,6 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         padding: 20px;
         margin: 20px auto;
-        text-align: center;
         width: 50%;
     }
 

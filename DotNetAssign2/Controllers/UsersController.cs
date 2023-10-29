@@ -30,6 +30,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Users == null)
@@ -170,11 +171,7 @@ namespace DotNetAssign2.Controllers
             }
 
             // Updating user information
-            users.Name = users.Name;
-            users.Email = users.Email;
-            users.Phone = users.Phone;
             users.CheckedIn = false;
-            users.CheckInTime = users.CheckInTime;
             users.CheckOutTime = DateTime.Now;
             _context.Update(users);
             await _context.SaveChangesAsync();
@@ -184,6 +181,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Users == null)
@@ -202,6 +200,7 @@ namespace DotNetAssign2.Controllers
         }
 
         // POST: Users/Delete/5
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
