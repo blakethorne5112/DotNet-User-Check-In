@@ -10,7 +10,8 @@
 
 <h1>Locations</h1>
 
-@if (User.IsInRole("Staff") || User.IsInRole("Administrator")) {
+@if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
+{
     <p>
         <a asp-action="Create">Create New</a>
     </p>
@@ -27,34 +28,36 @@
             <th>
                 @Html.DisplayNameFor(model => model.MapsLink)
             </th>
-            <th></th>
+            @if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a href="@item.MapsLink">Google Maps</a>
-            </td>
-            <td>
-                @if (User.IsInRole("Staff") || User.IsInRole("Administrator")) {
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                        <a asp-action="UserLocations" asp-route-id="@item.Id">Check-Ins</a>
-                    </div>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a href="@item.MapsLink">Google Maps</a>
+                </td>
+                @if (User.IsInRole("Staff") || User.IsInRole("Administrator"))
+                {
+                    <td>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </div>
+                    </td>
                 }
-                <a asp-action="CheckIn" asp-route-id="@item.Id">Check in</a>
-                <a asp-action="CheckOut" asp-route-id="@item.Id">Check out</a>
-            </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>

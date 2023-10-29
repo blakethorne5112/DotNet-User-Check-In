@@ -21,6 +21,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
+            <th>
+                Checked In?
+            </th>
+            <th>
+                Time of Check In
+            </th>
+            <th>
+                Time of Check Out
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +44,22 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @if (item.CheckedIn == true)
+                {
+                    <text>Yes</text>
+                }
+                else
+                {
+                    <text>No</text>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckInTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckOutTime)
             </td>
             @if (User.IsInRole("Administrator"))
             {
