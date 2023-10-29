@@ -75,9 +75,9 @@ namespace DotNetAssign2.Controllers
         {
             if (ModelState.IsValid)
             {
-                users.CheckedIn = true;
-                users.CheckInTime = DateTime.Now;
-                users.CheckOutTime = DateTime.Now;
+                // users.CheckedIn = true;
+                // users.CheckInTime = DateTime.Now;
+                // users.CheckOutTime = DateTime.Now;
                 _context.Add(users);
                 await _context.SaveChangesAsync();
 
@@ -154,25 +154,25 @@ namespace DotNetAssign2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckOut([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users)
         {
-            bool found = false;
-            foreach (Users user in _context.Users)
-            {
-                if (users.Phone == user.Phone && user.CheckedIn == true)
-                {
-                    users = user;
-                    found = true;
-                }
-            }
-            if (!found)
-            {
-                // No matching user found, display an error message to the user
-                TempData["ErrorMessage"] = "There is no one matching that phone number.";
-                return View("CheckOut", users);
-            }
+            // bool found = false;
+            // foreach (Users user in _context.Users)
+            // {
+            //     if (users.Phone == user.Phone && user.CheckedIn == true)
+            //     {
+            //         users = user;
+            //         found = true;
+            //     }
+            // }
+            // if (!found)
+            // {
+            //     // No matching user found, display an error message to the user
+            //     TempData["ErrorMessage"] = "There is no one matching that phone number.";
+            //     return View("CheckOut", users);
+            // }
 
-            // Updating user information
-            users.CheckedIn = false;
-            users.CheckOutTime = DateTime.Now;
+            // // Updating user information
+            // users.CheckedIn = false;
+            // users.CheckOutTime = DateTime.Now;
             _context.Update(users);
             await _context.SaveChangesAsync();
 

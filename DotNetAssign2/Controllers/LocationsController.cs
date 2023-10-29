@@ -68,11 +68,11 @@ namespace DotNetAssign2.Controllers
             return View(location);
         }
 
-        [HttpDelete("locations/{id}")]
+        [HttpGet("locations/{id}/delete")]
         [Authorize(Roles = "Administrator,Staff")]
         public async Task<IActionResult> Delete(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
+            var location = await _context.Locations.Where(m => m.Id == id).FirstOrDefaultAsync();
             if (location == null)
             {
                 return NotFound("Location not found.");
@@ -81,17 +81,17 @@ namespace DotNetAssign2.Controllers
             _context.Locations.Remove(location);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Locations");
         }
 
         // Check a user into a location
         [HttpPost("locations/{id}/checkin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int eventId)
+        public async Task<IActionResult> CheckIn([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int id)
         {
 
             var location = await _context.Locations
-                .Where(m => m.Id == eventId)
+                .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
 
             if (location == null)
@@ -102,7 +102,7 @@ namespace DotNetAssign2.Controllers
             // Check if the user is already checked in by getting the UsersLocations record for the user and location
             var userLocation = await _context.UserLocations
                 .Where(m => m.UsersID == users.ID)
-                .Where(m => m.LocationsId == eventId)
+                .Where(m => m.LocationsId == id)
                 .FirstOrDefaultAsync();
 
             if (userLocation != null)
@@ -110,42 +110,48 @@ namespace DotNetAssign2.Controllers
                 return NotFound("User is already checked in.");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-                users.CheckedIn = true;
-                users.CheckInTime = DateTime.Now;
-                users.CheckOutTime = DateTime.Now;
-                _context.Add(users);
-
-                // Create a new UsersLocations record for the user and location
-                var newUserLocation = new UsersLocations()
-                {
-                    UsersID = users.ID,
-                    LocationsId = eventId,
-                    CheckedIn = true,
-                    CheckInTime = DateTime.Now,
-                    CheckOutTime = null
-                };
-
-                _context.Add(newUserLocation);
-
-                await _context.SaveChangesAsync();
-
-                if (users.Phone != null)
-                {
-                    Response.Cookies.Append("phoneNumber", users.Phone, new CookieOptions
-                    {
-                        Path = "/",
-                        HttpOnly = true,
-                        Secure = true,
-                        MaxAge = TimeSpan.FromDays(30) // Set the cookie to expire in 30 days
-                    });
-                }
-
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Locations", "Index");
             }
-            return RedirectToAction("Index", "Home");
+
+            var newUser = new Models.Users
+            {
+                Email = users.Email,
+                Name = users.Name,
+                Phone = users.Phone
+            };
+
+            _context.Add(newUser);
+
+            await _context.SaveChangesAsync();
+
+            // Create a new UsersLocations record for the user and location
+            var newUserLocation = new UsersLocations()
+            {
+                UsersID = users.ID,
+                LocationsId = id,
+                CheckedIn = true,
+                CheckInTime = DateTime.Now,
+                CheckOutTime = null,
+            };
+
+            _context.Add(newUserLocation);
+
+            await _context.SaveChangesAsync();
+
+            if (users.Phone != null)
+            {
+                Response.Cookies.Append("phoneNumber", users.Phone, new CookieOptions
+                {
+                    Path = "/",
+                    HttpOnly = true,
+                    Secure = true,
+                    MaxAge = TimeSpan.FromDays(30) // Set the cookie to expire in 30 days
+                });
+            }
+
+            return RedirectToAction("Locations", "Index");
         }
 
         [HttpGet("locations/{id}/checkin")]
@@ -161,18 +167,30 @@ namespace DotNetAssign2.Controllers
                 return NotFound("Location not found.");
             }
 
-            return View(location);
+            return View();
         }
 
         // POST: Locations/5/CheckOut
         // Check a user out of a location
         [HttpPost("locations/{eventId}/checkout")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut([Bind("ID,Name,Email,Phone,CheckedIn,CheckInTime,CheckOutTime")] Users users, int eventId)
+        public async Task<IActionResult> CheckOut([Bind("Phone")] Users users, int eventId)
         {
+            var cookieUserPhone = Request.Cookies["phoneNumber"];
+
+            // find user by phone number
+            var user = await _context.Users
+                .Where(m => m.Phone == cookieUserPhone || m.Phone == users.Phone)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
             // Check if the user is already checked in by getting the UsersLocations record for the user and location
             var userLocation = await _context.UserLocations
-                .Where(m => m.UsersID == users.ID)
+                .Where(m => m.UsersID == user.ID)
                 .Where(m => m.LocationsId == eventId)
                 .FirstOrDefaultAsync();
 
@@ -181,23 +199,43 @@ namespace DotNetAssign2.Controllers
                 return NotFound("User is not checked in.");
             }
 
-            if (ModelState.IsValid)
+            if (userLocation.CheckOutTime != null)
             {
-                users.CheckedIn = false;
-                users.CheckInTime = userLocation.CheckInTime;
-                users.CheckOutTime = DateTime.Now;
-                _context.Update(users);
-
-                // Update the UsersLocations record for the user and location
-                userLocation.CheckedIn = false;
-                userLocation.CheckOutTime = DateTime.Now;
-                _context.Update(userLocation);
-
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index", "Home");
+                return NotFound("User is already checked out.");
             }
-            return View(users);
+
+            _context.Update(user);
+
+            // Update the UsersLocations record for the user and location
+            userLocation.CheckedIn = false;
+            userLocation.CheckOutTime = DateTime.Now;
+            _context.Update(userLocation);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Locations");
+        }
+
+        [HttpGet("locations/{id}/checkout")]
+        public async Task<IActionResult> CheckOut(int id)
+        {
+
+            var location = await _context.Locations
+                .Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (location == null)
+            {
+                return NotFound("Location not found.");
+            }
+
+            var user = new Users(); 
+            if (Request.Cookies.TryGetValue("phoneNumber", out var phoneNumber))
+            {
+                user.Phone = phoneNumber;
+            }
+
+            return View(user);
         }
 
         // GET: Locations/Create
@@ -222,7 +260,7 @@ namespace DotNetAssign2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Locations");
         }
 
         // GET: Locations/5/Edit
@@ -236,10 +274,48 @@ namespace DotNetAssign2.Controllers
             {
                 return NotFound();
             }
-            return RedirectToAction("Index", "Home");
+            return View(locations);
         }
 
-        // POST: Locations/Edit/5
+        // POST: Locations/5/Edit
+        // Edit a location
+        [HttpPost("locations/{id}/edit")]
+        [Authorize(Roles = "Administrator,Staff")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,MapsLink")] Locations locations)
+        {
+            if (id != locations.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(locations);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LocationsExists(locations.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index", "Locations");
+            }
+            return View(locations);
+        }
+
+        private bool LocationsExists(int id)
+        {
+            return _context.Locations.Any(e => e.Id == id);
+        }
 
     }
 }

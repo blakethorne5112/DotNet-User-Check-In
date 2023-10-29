@@ -15,7 +15,6 @@ namespace DotNetAssign2.Models
         [Required]
         public string? Name { get; set; }
         [Required]
-        [EmailAddress]
         public string? Description { get; set;}
         [Required]
         [Url]
